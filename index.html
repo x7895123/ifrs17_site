@@ -28,7 +28,7 @@
 
         body {
             font-family: var(--font-sans);
-            background-color: var(--bg-dark); /* Static background */
+            background-color: var(--bg-dark); /* Fallback background */
             color: var(--text-primary);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
@@ -37,38 +37,27 @@
             z-index: 1; /* Ensure body content is above the absolute background */
         }
 
-        /* --- Animated Background Container (MathJax) --- */
-        #mathjax-background {
+        /* --- Animated Background Container --- */
+        #particles-js {
             position: fixed; /* Fixed position to stay in background */
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Hide parts of formulas going off-screen */
+            top: 0;
+            left: 0;
+            background-color: var(--bg-dark);
+            background-image: url(''); /* Optional: Add static fallback bg image here */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 50% 50%;
             z-index: -1; /* Position behind all content */
-            /* Background color set by body, or can be set here */
         }
-
-        .formula-container {
-            position: absolute;
-            pointer-events: none; /* Prevent interaction with background elements */
-            opacity: 0; /* Start invisible for fade-in */
-            transition: opacity 2s ease-in; /* Fade-in transition - applied via JS */
-            will-change: transform, opacity; /* Hint for performance */
-        }
-
-        .formula {
-             /* Base styling - color/shadow set via JavaScript */
-            /* text-shadow: 0 0 5px rgba(255, 255, 255, 0.4); */ /* Glow effect applied via JS */
-        }
-        /* --- End MathJax Background CSS --- */
 
 
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 25px;
-            position: relative; /* Ensure container content stays above background */
+            position: relative; /* Ensure container content stays above particles */
              z-index: 2;
         }
 
@@ -124,10 +113,10 @@
         section {
             padding: 100px 0; /* Increased padding due to fixed header */
             border-bottom: 1px solid var(--border-color);
-            position: relative; /* Ensure section content stays above background */
+            position: relative; /* Ensure section content stays above particles */
              z-index: 2;
-             /* Add a subtle background to sections if needed to ensure readability over background */
-             /* background-color: rgba(var(--bg-dark-rgb, 10, 25, 47), 0.7); */ /* requires --bg-dark-rgb definition */
+             /* Add a subtle background to sections if needed to ensure readability over particles */
+             /* background-color: rgba(10, 25, 47, 0.5); */
         }
         section:last-of-type {
             border-bottom: none;
@@ -141,7 +130,7 @@
              justify-content: center;
              text-align: center;
              border-bottom: none;
-             background-color: transparent; /* Let background show through */
+             background-color: transparent; /* Let particle background show through */
         }
 
 
@@ -249,7 +238,7 @@
             border-radius: 5px;
             border: 1px solid var(--border-color);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-             position: relative; /* Ensure content stays above background */
+             position: relative; /* Ensure content stays above particles */
              z-index: 3;
         }
         .toolkit-item:hover {
@@ -278,7 +267,7 @@
             border-radius: 5px;
             border: 1px solid var(--border-color);
             margin-top: 30px;
-            position: relative; /* Ensure content stays above background */
+            position: relative; /* Ensure content stays above particles */
             z-index: 3;
         }
         .differentiator-content ol {
@@ -316,7 +305,7 @@
             text-align: center;
             border: 1px solid var(--border-color);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative; /* Ensure content stays above background */
+            position: relative; /* Ensure content stays above particles */
             z-index: 3;
         }
         .team-member:hover {
@@ -408,7 +397,7 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
             border-top: 1px solid var(--border-color);
-            position: relative; /* Ensure footer content stays above background */
+            position: relative; /* Ensure footer content stays above particles */
             z-index: 2;
             background-color: var(--bg-dark); /* Give footer a solid background */
         }
@@ -436,8 +425,8 @@
 </head>
 <body>
 
-    <!-- MathJax Background Container -->
-    <div id="mathjax-background"></div>
+    <!-- Particle container MUST be right after body -->
+    <div id="particles-js"></div>
 
     <header>
         <div class="container">
@@ -550,71 +539,87 @@
             <h2>Our Expert Team: Your Outsourced Competency</h2>
             <p class="centered-p">Gain direct access to a dedicated team of specialists.</p>
             <div class="team-grid">
-                 <!-- IMPORTANT: Replace placeholder image paths below with paths to actual photos -->
                 <!-- === TEAM MEMBER 1: Rinat Shakenov === -->
                 <div class="team-member">
-                    <img src="images/rinat.jpeg" alt="Photo of Rinat Shakenov">
+                    <!-- IMPORTANT: Replace 'placeholder-avatar-1.png' with actual image path -->
+                    <img src="images/placeholder-avatar-1.png" alt="Photo of Rinat Shakenov">
                     <h4>Rinat Shakenov</h4>
                     <p class="role">Project Manager<br/>(Rep. ТОО "Актуарный консультант")</p>
                     <p class="expertise">Oversees project execution, leveraging Actuarial Consulting background to ensure alignment with IFRS 17/SII objectives within your project structure.</p>
-                    <!-- <a href="[LINKEDIN_URL_RINAT]" target="_blank" rel="noopener noreferrer" class="linkedin-link">LinkedIn Profile</a> -->
+                    <!-- Add LinkedIn Link if available -->
+                     <!-- <a href="[LINKEDIN_URL_RINAT]" target="_blank" rel="noopener noreferrer" class="linkedin-link">LinkedIn Profile</a> -->
                 </div>
+
                 <!-- === TEAM MEMBER 2: Alan Rymov === -->
                 <div class="team-member">
-                    <img src="images/alan.jpeg" alt="Photo of Alan Rymov">
+                     <!-- IMPORTANT: Replace 'placeholder-avatar-2.png' with actual image path -->
+                    <img src="images/placeholder-avatar-2.png" alt="Photo of Alan Rymov">
                     <h4>Alan Rymov</h4>
                     <p class="role">IFRS 17 & Solvency II Consultant / Core Model Developer</p>
                     <p class="expertise">Fellow of the Society of Actuaries (FSA). Provides expert consulting on standards and contributes to core actuarial model development & validation.</p>
                      <a href="https://linkedin.com/in/alan-rymov-08599b8" target="_blank" rel="noopener noreferrer" class="linkedin-link">LinkedIn Profile</a>
                 </div>
+
                 <!-- === TEAM MEMBER 3: Bolat Myrzakhmet === -->
                 <div class="team-member">
-                    <img src="images/bolat.jpeg" alt="Photo of Bolat Myrzakhmet">
+                    <!-- IMPORTANT: Replace 'placeholder-avatar-3.png' with actual image path -->
+                    <img src="images/placeholder-avatar-3.png" alt="Photo of Bolat Myrzakhmet">
                     <h4>Bolat Myrzakhmet</h4>
                     <p class="role">Life Insurance IFRS 17 & Solvency II Consultant</p>
                     <p class="expertise">Specializes in applying IFRS 17/SII requirements to Life Insurance products. Background in Actuarial Consulting.</p>
                      <a href="https://www.linkedin.com/in/bolat-myrzakhmet-7074367/" target="_blank" rel="noopener noreferrer" class="linkedin-link">LinkedIn Profile</a>
                 </div>
+
                 <!-- === TEAM MEMBER 4: Aizhan Shukatayeva === -->
                 <div class="team-member">
-                    <img src="images/aika.jpeg" alt="Photo of Aizhan Shukatayeva">
+                    <!-- IMPORTANT: Replace 'placeholder-avatar-4.png' with actual image path -->
+                    <img src="images/placeholder-avatar-4.png" alt="Photo of Aizhan Shukatayeva">
                     <h4>Aizhan Shukatayeva</h4>
                     <p class="role">General Insurance IFRS 17 & Solvency II Consultant</p>
                     <p class="expertise">Focuses on IFRS 17/SII implementation for General (Non-Life) lines. Combines Actuarial Consulting with GAAP knowledge.</p>
                     <a href="https://www.linkedin.com/in/aizhan-shukatayeva-45b124251/" target="_blank" rel="noopener noreferrer" class="linkedin-link">LinkedIn Profile</a>
                 </div>
+
                  <!-- === TEAM MEMBER 5: Vladimir Shevchenko === -->
                 <div class="team-member">
-                    <img src="images/vladimir.jpeg" alt="Photo of Vladimir Shevchenko">
+                     <!-- IMPORTANT: Replace 'placeholder-avatar-5.png' with actual image path -->
+                    <img src="images/placeholder-avatar-5.png" alt="Photo of Vladimir Shevchenko">
                     <h4>Vladimir Shevchenko</h4>
                     <p class="role">Core Model Developer</p>
                     <p class="expertise">Develops and implements core actuarial calculation engines using Actuarial Data Science techniques.</p>
                      <a href="https://www.linkedin.com/in/vladimir-shevchenko-28180949/" target="_blank" rel="noopener noreferrer" class="linkedin-link">LinkedIn Profile</a>
                 </div>
+
                  <!-- === TEAM MEMBER 6: Vitaliy Garshtya === -->
                 <div class="team-member">
-                    <img src="images/vitaly.jpeg" alt="Photo of Vitaliy Garshtya">
+                     <!-- IMPORTANT: Replace 'placeholder-avatar-6.png' with actual image path -->
+                    <img src="images/placeholder-avatar-6.png" alt="Photo of Vitaliy Garshtya">
                     <h4>Vitaliy Garshtya</h4>
                     <p class="role">Data Warehouse (DWH) Project Manager</p>
                     <p class="expertise">Manages DWH component build. Experienced in Big Data environments and relevant Cyber Security practices.</p>
                      <a href="https://www.linkedin.com/in/vitaliy-garshtya-782296154/" target="_blank" rel="noopener noreferrer" class="linkedin-link">LinkedIn Profile</a>
                 </div>
+
                  <!-- === TEAM MEMBER 7: Kuanysh Tokhmetov === -->
                 <div class="team-member">
-                    <img src="images/kuanysh.jpeg" alt="Photo of Kuanysh Tokhmetov">
+                    <!-- IMPORTANT: Replace 'placeholder-avatar-7.png' with actual image path -->
+                    <img src="images/placeholder-avatar-7.png" alt="Photo of Kuanysh Tokhmetov">
                     <h4>Kuanysh Tokhmetov</h4>
                     <p class="role">Data Engineer</p>
                     <p class="expertise">Designs and builds data pipelines, ETL processes. Proficient in SQL, Python, Data Modeling, DWH concepts, DB tech (PostgreSQL, Greenplum), Big Data tools (Spark, Kafka, Airflow).</p>
                     <a href="https://www.linkedin.com/in/kuanysh-tokhmetov-ba711695/" target="_blank" rel="noopener noreferrer" class="linkedin-link">LinkedIn Profile</a>
                 </div>
+
                  <!-- === TEAM MEMBER 8: Vladislav Frants === -->
                  <div class="team-member">
-                    <img src="images/vlad.jpeg" alt="Photo of Vladislav Frants">
+                    <!-- IMPORTANT: Replace 'placeholder-avatar-8.png' with actual image path -->
+                    <img src="images/placeholder-avatar-8.png" alt="Photo of Vladislav Frants">
                     <h4>Vladislav Frants</h4>
                     <p class="role">DevOps & Database Administrator (DBA)</p>
                     <p class="expertise">Manages IT infrastructure, deployment pipelines (DevOps), and Oracle database administration (Multi-Certified OCP, OCE). Ensures stability and performance.</p>
                      <a href="https://www.linkedin.com/in/vladislav-frants-a1247489/" target="_blank" rel="noopener noreferrer" class="linkedin-link">LinkedIn Profile</a>
                  </div>
+
             </div>
         </div>
     </section>
@@ -662,300 +667,90 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2023 ABC Consulting. All rights reserved. Specialized Outsourcing Partner for IFRS 17 & Solvency II Implementations.</p>
+            <p>© 2023 ABC Consulting. All rights reserved. Specialized Outsourcing Partner for IFRS 17 & Solvency II Implementations.</p>
             <!-- Add links to Privacy Policy or Terms if needed -->
         </div>
     </footer>
 
-    <!-- Load MathJax -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- tsParticles library (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
 
-    <!-- MathJax Animated Background Script -->
+    <!-- Particle Animation Initialization -->
     <script>
-        // Configure MathJax (same as your test file)
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$','$'], ['\\(','\\)']],
-                displayMath: [['$$','$$'], ['\\[','\\]']],
-                processEscapes: true,
-                skipTags: ["script", "noscript", "style", "textarea", "pre", "code"] // Avoid processing script tags etc.
-            },
-            "HTML-CSS": {
-                linebreaks: { automatic: true },
-                scale: 90, // Slightly smaller scale might fit better
-                showMathMenu: false // Disable right-click menu on formulas
-            },
-             showProcessingMessages: false, // Hide "Processing Math: XX%" messages
-             messageStyle: "none" // Hide other messages
-        });
-        MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready", function () {
-          var FONT = MathJax.OutputJax["HTML-CSS"].FONTDATA.FONTS;
-          // Reduce space between characters if needed (adjust factor)
-          // for (var i=0; i<FONT.length; i++) {FONT[i].space = FONT[i].space * 0.9;}
-          // Reduce line height if needed (adjust factor)
-          // for (var i=0; i<FONT.length; i++) {FONT[i].baselineskip = FONT[i].baselineskip * 0.9;}
-        });
-
-
-        // Formulas (same as your test file)
-// Collection of ACTUARIAL / IFRS17 / Solvency II formulas (LaTeX)
-        const formulas = [
-            // === Life Contingencies / Basic Actuarial ===
-            "S(x) = P(T_0 > x)",        // Survival Function
-            "\\,_t p_x = \\frac{l_{x+t}}{l_x}",  // Probability of Survival
-            "\\mu_x = -\\frac{d}{dx} \\ln S(x)", // Force of Mortality
-            "q_x = 1 - p_x",             // Probability of Death
-            "\\ddot{a}_{x:\\overline{n}|} = \\sum_{k=0}^{n-1} v^k \\,_k p_x", // Annuity Due PV
-            "A_x = \\sum_{k=0}^{\\infty} v^{k+1} \\,_k p_x q_{x+k}", // Whole Life Insurance PV
-            "PV = \\sum_{t=1}^n \\frac{CF_t}{(1+i)^t}", // Basic Present Value
-            "v = \\frac{1}{1+i}",        // Discount Factor
-            "\\prescript{}{n}{V}_x",      // Reserve Notation (example)
-            "P(A_x) = \\frac{A_x}{\\ddot{a}_x}", // Net Annual Premium (example)
-            "\\stackrel{\\circ}{e}_x = \\int_0^\\infty \\,_t p_x dt", // Complete Expectation of Life
-            "i^{(m)} = m \\left( (1+i)^{1/m} - 1 \\right)", // Nominal rate convertible m-thly
-            "\\delta = \\ln(1+i)",       // Force of Interest
-
-            // === IFRS 17 ===
-            "BEL = PV(FCF)",             // Best Estimate Liability
-            "LRC = BEL_{LRC} + RA_{LRC} + CSM", // Liability for Remaining Coverage
-            "LIC = BEL_{LIC} + RA_{LIC}",     // Liability for Incurred Claims
-            "CSM_t = CSM_{t-1} + Interest + ...", // Contractual Service Margin (conceptual start)
-            "RA",                        // Risk Adjustment (symbol)
-            "OCI",                       // Other Comprehensive Income (relevant abbreviation)
-            "GMM", "PAA", "VFA",          // IFRS 17 Measurement Models
-            "FCF",                       // Fulfillment Cash Flows
-
-            // === Solvency II ===
-            "TP = BEL + RM",             // Technical Provisions
-            "SCR",                       // Solvency Capital Requirement (symbol)
-            "MCR",                       // Minimum Capital Requirement (symbol)
-            "RM",                        // Risk Margin (symbol)
-            "OF \\ge SCR",               // Own Funds Requirement (conceptual)
-            "BSCR",                      // Basic Solvency Capital Requirement
-            "\\sigma_{agg}^2 = \\sum_i \\sum_j \\rho_{ij} \\sigma_i \\sigma_j SCR_i SCR_j", // Aggregation (conceptual)
-
-            // === Risk / Statistics (Actuarial Context) ===
-            "VaR_\\alpha (X)",           // Value at Risk
-            "TVaR_\\alpha (X)",          // Tail Value at Risk (or ES - Expected Shortfall)
-            "\\sigma^2 = Var(X)"         // Variance
-            // "Corr(X,Y)"             // Correlation (if needed)
-        ];
-
-        // Color palettes (using CSS variables for consistency, converted to RGB arrays)
-        function hexToRgb(hex) {
-            let bigint = parseInt(hex.slice(1), 16);
-            let r = (bigint >> 16) & 255;
-            let g = (bigint >> 8) & 255;
-            let b = bigint & 255;
-            return [r, g, b];
-        }
-
-        const accentPrimaryRgb = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim() || '#64ffda');
-        const textSecondaryRgb = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim() || '#8892b0');
-        const textPrimaryRgb = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim() || '#ccd6f6');
-
-        const colorPalettes = [
-            accentPrimaryRgb, // Teal/Cyan
-            [120, 220, 255], // Light blue
-            [200, 100, 255], // Purple
-            [255, 130, 100], // Coral
-             textSecondaryRgb, // Medium Gray
-             textPrimaryRgb, // Light Blue/Gray
-            [100, 255, 150], // Mint
-            [255, 220, 100], // Gold
-            [150, 150, 255], // Periwinkle
-            [255, 100, 200]  // Pink
-        ];
-
-        // Variables
-        let containerWidth = window.innerWidth;
-        let containerHeight = window.innerHeight;
-        const background = document.getElementById('mathjax-background'); // Target new ID
-        const activeFormulas = new Set();
-        const maxActiveFormulas = 18; // Adjusted max count
-        let animationFrameId = null; // To potentially stop/start animation
-
-        // Function to create and animate a formula
-        function createAndAnimateFormula() {
-            if (activeFormulas.size >= maxActiveFormulas || !background) return; // Exit if limit reached or background missing
-
-            const container = document.createElement('div');
-            container.className = 'formula-container';
-
-            const formulaDiv = document.createElement('div');
-            formulaDiv.className = 'formula';
-            const randomFormula = formulas[Math.floor(Math.random() * formulas.length)];
-            formulaDiv.textContent = `$$${randomFormula}$$`; // Use display math mode for better rendering
-
-            container.appendChild(formulaDiv);
-
-            // Initial random position (calculate BEFORE adding to DOM)
-            const safeMargin = 50; // Pixels from edge
-             // Allow starting slightly off-screen for smoother entry
-            const randomX = -safeMargin*2 + Math.random() * (containerWidth + 4 * safeMargin);
-            const randomY = -safeMargin*2 + Math.random() * (containerHeight + 4 * safeMargin);
-            container.style.left = `${randomX}px`;
-            container.style.top = `${randomY}px`;
-
-            const scale = 0.6 + Math.random() * 0.5; // Adjusted scale range
-            container.style.transform = `scale(${scale})`;
-            container.style.opacity = '0'; // Start hidden
-
-            background.appendChild(container); // Add to DOM *after* initial style setup
-            activeFormulas.add(container);
-
-
-            // Queue MathJax processing
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, formulaDiv]);
-
-            // Queue function to run *after* MathJax finishes typesetting this element
-            MathJax.Hub.Queue(() => {
-                 // Check if container still exists (might have been removed by resize cleanup)
-                if (!background.contains(container)) {
-                     activeFormulas.delete(container);
-                     return;
-                }
-
-                // Setup animation properties
-                const palette = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
-                const alpha = 80 + Math.floor(Math.random() * 100); // Random transparency (80-180)
-                const colorStyle = `rgba(${palette[0]}, ${palette[1]}, ${palette[2]}, ${alpha / 255})`;
-                const glowColor = `rgba(${palette[0]}, ${palette[1]}, ${palette[2]}, 0.3)`; // Softer glow
-
-                 // Apply color/shadow to MathJax elements
-                const mathJaxElements = container.querySelectorAll('.MathJax_Display, .MathJax'); // Target rendered elements
-                mathJaxElements.forEach(el => {
-                    // Find the actual math content span if needed (sometimes nested)
-                    let contentSpan = el.querySelector('span[id^="MathJax-Element"]');
-                    if (!contentSpan) contentSpan = el; // Fallback to the main element
-                    contentSpan.style.color = colorStyle;
-                    contentSpan.style.textShadow = `0 0 6px ${glowColor}`;
-                });
-
-                 // --- Animation ---
-                const duration = 35000 + Math.random() * 45000; // 35-80 seconds lifespan
-                const startTime = performance.now(); // Use performance.now for higher precision
-                const endTime = startTime + duration;
-                const fadeOutStartTime = endTime - 4000; // Start fade out 4 seconds before end
-
-                // Movement
-                const angle = Math.random() * Math.PI * 2;
-                const speed = 0.1 + Math.random() * 0.05; // Slower speed range
-                const vx = Math.cos(angle) * speed;
-                const vy = Math.sin(angle) * speed;
-                let currentX = randomX; // Use initial values
-                let currentY = randomY;
-                let isFadingOut = false;
-
-                 // Set fade-in transition *after* initial setup
-                container.style.transition = 'opacity 2s ease-in';
-                requestAnimationFrame(() => { // Allow browser to render hidden element first
-                    container.style.opacity = 0.4 + Math.random() * 0.5; // Random final opacity
-                });
-
-
-                function animate(timestamp) {
-                    if (!activeFormulas.has(container)) return; // Stop if removed elsewhere
-
-                    const elapsed = timestamp - startTime;
-
-                    // Fade out logic
-                    if (!isFadingOut && timestamp >= fadeOutStartTime) {
-                        container.style.transition = 'opacity 4s ease-out'; // Longer fade-out
-                        container.style.opacity = '0';
-                        isFadingOut = true;
-                    }
-
-                    // Removal logic
-                    if (timestamp >= endTime) {
-                        if (background.contains(container)) {
-                            background.removeChild(container);
-                        }
-                        activeFormulas.delete(container);
-                        // Schedule creation of a replacement after a delay
-                        setTimeout(createAndAnimateFormula, 500 + Math.random() * 2500);
-                        return; // Stop animation loop for this element
-                    }
-
-                    // Update position
-                    currentX += vx;
-                    currentY += vy;
-                    container.style.left = `${currentX}px`;
-                    container.style.top = `${currentY}px`;
-
-                    // Screen wrapping (check approximate center, not edges, more robust)
-                    const centerX = currentX + container.offsetWidth / 2;
-                    const centerY = currentY + container.offsetHeight / 2;
-                    const margin = container.offsetWidth > container.offsetHeight ? container.offsetWidth : container.offsetHeight; // Use larger dimension
-
-                    if (vx > 0 && centerX > containerWidth + margin) currentX = -margin; // Moved off right -> enter left
-                    else if (vx < 0 && centerX < -margin) currentX = containerWidth + margin; // Moved off left -> enter right
-
-                    if (vy > 0 && centerY > containerHeight + margin) currentY = -margin; // Moved off bottom -> enter top
-                    else if (vy < 0 && centerY < -margin) currentY = containerHeight + margin; // Moved off top -> enter bottom
-
-
-                    container.animationFrameId = requestAnimationFrame(animate); // Store ID
-                }
-
-                container.animationFrameId = requestAnimationFrame(animate); // Start the loop
-            });
-        }
-
-        // Function to clear all formulas (e.g., on resize before repopulating)
-        function clearAllFormulas() {
-             activeFormulas.forEach(container => {
-                  if (container.animationFrameId) {
-                      cancelAnimationFrame(container.animationFrameId);
-                  }
-                  if (background.contains(container)) {
-                     background.removeChild(container);
-                  }
-             });
-             activeFormulas.clear();
-        }
-
-        // Function to populate the screen initially
-        function populateScreen() {
-            clearAllFormulas(); // Clear existing before populating
-            const initialCount = Math.min(maxActiveFormulas, Math.floor(containerWidth * containerHeight / 150000)); // Adjust density based on area
-            console.log("Populating with count:", initialCount);
-            for (let i = 0; i < initialCount; i++) {
-                // Stagger initial creation slightly
-                setTimeout(() => createAndAnimateFormula(), i * (2000 / initialCount));
-            }
-        }
-
-        // Handle window resize
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            containerWidth = window.innerWidth;
-            containerHeight = window.innerHeight;
-            // Debounce resize event to avoid excessive clearing/repopulating
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                 console.log("Resizing - Repopulating");
-                 // Re-populate after resize, maybe after clearing
-                  populateScreen();
-            }, 500); // Adjust debounce delay as needed
-        });
-
-        // Start after MathJax is ready
-        MathJax.Hub.Register.StartupHook("End", function() {
-            console.log("MathJax Ready - Populating");
-            populateScreen();
-
-            // Add new formulas periodically ONLY if needed (less frequent)
-            setInterval(() => {
-                if (activeFormulas.size < maxActiveFormulas) {
-                     //console.log("Adding periodic formula");
-                    createAndAnimateFormula();
-                }
-            }, 5000); // Add less frequently than initial population
-        });
+        tsParticles.load("particles-js", {
+           fpsLimit: 60, // Keep performance reasonable
+           particles: {
+               number: {
+                   value: 40, // Adjust density
+                   density: {
+                       enable: true,
+                       value_area: 800
+                   }
+               },
+               color: {
+                   value: "#ccd6f6" // Particle color - using text primary
+               },
+               shape: {
+                   type: "circle"
+               },
+               opacity: {
+                   value: 0.5, // Slightly transparent
+                   random: true, // Vary opacity
+                   anim: { enable: false } // No opacity animation needed
+               },
+               size: {
+                   value: 3, // Small particles
+                   random: true, // Vary size
+                   anim: { enable: false } // No size animation needed
+               },
+               links: { // Changed from line_linked
+                   enable: true,
+                   distance: 350, // How close to link
+                   color: "#8892b0", // Link color - using text secondary
+                   opacity: 0.4,
+                   width: 1
+               },
+               move: {
+                   enable: true,
+                   speed: 0.5, // Moderate speed
+                   direction: "none", // Random direction
+                   random: true,
+                   straight: false, // Not perfectly straight lines
+                   out_mode: "out", // Remove when off-screen
+                   bounce: false,
+                   attract: { enable: false } // No attraction
+               }
+           },
+           interactivity: {
+               detect_on: "canvas",
+               events: {
+                   onhover: {
+                       enable: true,
+                       mode: "repulse" // Push particles away slightly on hover
+                   },
+                   onclick: {
+                       enable: true,
+                       mode: "push" // Add a few particles on click
+                   },
+                   resize: true // Adjust on window resize
+               },
+               modes: {
+                   grab: { distance: 400, line_opacity: 1 }, // Not used currently
+                   bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, // Not used currently
+                   repulse: {
+                       distance: 100, // How far the repulse effect reaches
+                        duration: 0.4
+                   },
+                   push: { particles_nb: 4 }, // Number of particles to add on click
+                   remove: { particles_nb: 2 } // Not used currently
+               }
+           },
+           retina_detect: true // Better rendering on high-DPI screens
+       });
     </script>
 
-    <!-- Smooth Scrolling Script -->
+
+    <!-- Smooth Scrolling Script (Optional but good UX) -->
     <script>
         document.querySelectorAll('header nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {

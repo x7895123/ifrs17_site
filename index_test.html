@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flying Through a Hyperbolic Torus</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+        
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .content {
+            position: relative;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            z-index: 1;
+            text-align: center;
+            top: 20px;
+        }
+        
+        h1 {
+            color: #fff;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px rgba(88, 101, 242, 0.8), 0 0 20px rgba(88, 101, 242, 0.5);
+        }
+        
+        p {
+            color: #ccc;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <h1>Flying Through a Hyperbolic Torus</h1>
+        <p>An animated journey through the fascinating 4D topology of a hyperbolic torus.</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas to full window size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        // Constants for the hypertor simulation
+        const numPoints = 5000;
+        const pointSize = 1.5;
+        const maxSpeed = 0.01;
+        const minSpeed = 0.005;
+        const baseDepth = 10;
+        
+        // Colors
+        const colors = [
+            { r: 88, g: 101, b: 242 },    // Discord blue
+            { r: 255, g: 88, b: 142 },    // Hot pink
+            { r: 57, g: 234, b: 203 },    // Teal
+            { r: 255, g: 170, b: 0 },     // Orange
+            { r: 0, g: 183, b: 255 }      // Cyan
+        ];
+        
+        // Parameters for the hypertor
+        let rotationX = 0;
+        let rotationY = 0;
+        let rotationZ = 0;
+        let time = 0;
+        
+        // Points in the system
+        const points = [];
+        
+        // Initialize points
+        function initPoints() {
+            for (let i = 0; i < numPoints; i++) {
+                const colorIndex = Math.floor(Math.random() * colors.length);
+                const color = colors[colorIndex];
+                
+                // Create points on a hyperbolic torus
+                const u = Math.random() * Math.PI * 2;
+                const v = Math.random() * Math.PI * 2;
+                const majorRadius = 3;
+                const minorRadius = 1;
+                
+                // Add variation to make it more interesting
+                const variation = 0.2 * (Math.random() - 0.5);
+                
+                // Hyperbolic torus coordinates
+                const x = (majorRadius + minorRadius * Math.cos(v)) * Math.cos(u);
+                const y = (majorRadius + minorRadius * Math.cos(v)) * Math.sin(u);
+                const z = minorRadius * Math.sin(v);
+                
+                // Add a fourth dimension for hyperbolic effect
+                const w = Math.sin(u * 2) * Math.cos(v * 3) * (1 + variation);
+                
+                // Random speed for the point
+                const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
+                
+                points.push({
+                    x, y, z, w,
+                    originalX: x,
+                    originalY: y,
+                    originalZ: z,
+                    originalW: w,
+                    speed,
+                    color,
+                    size: pointSize * (0.5 + Math.random()),
+                    phase: Math.random() * Math.PI * 2,
+                    depth: baseDepth + Math.random() * 5
+                });
+            }
+        }
+        
+        // Project 4D to 3D to 2D
+        function project(point, width, height) {
+            // Apply 4D to 3D projection with time
+            const t = time * point.speed;
+            
+            // Apply hyperbolic transformations
+            const scale = 1 / (point.depth - point.z * Math.sin(t) - point.w * Math.cos(t));
+            
+            // Apply rotations
+            const rx = rotationX * Math.PI / 180;
+            const ry = rotationY * Math.PI / 180;
+            const rz = rotationZ * Math.PI / 180;
+            
+            // Rotate in 4D space
+            let x = point.originalX;
+            let y = point.originalY;
+            let z = point.originalZ;
+            let w = point.originalW;
+            
+            // Apply hyperbolic distortion
+            const sinT = Math.sin(t + point.phase);
+            const cosT = Math.cos(t + point.phase);
+            
+            // Hyperbolic rotation in 4D space
+            const x1 = x * cosT - w * sinT;
+            const y1 = y;
+            const z1 = z; 
+            const w1 = x * sinT + w * cosT;
+            
+            // Second hyperbolic rotation
+            const x2 = x1;
+            const y2 = y1 * cosT - z1 * sinT;
+            const z2 = y1 * sinT + z1 * cosT;
+            const w2 = w1;
+            
+            // Apply a torus-specific transformation
+            const theta = Math.atan2(y2, x2);
+            const radius = Math.sqrt(x2*x2 + y2*y2);
+            
+            // Pulse the torus over time
+            const pulse = 1 + 0.1 * Math.sin(t * 2 + point.phase);
+            const torusX = (radius + 0.3 * Math.sin(5 * theta + t)) * Math.cos(theta) * pulse;
+            const torusY = (radius + 0.3 * Math.sin(5 * theta + t)) * Math.sin(theta) * pulse;
+            const torusZ = z2 + 0.3 * Math.cos(5 * theta + t) * pulse;
+            
+            // Apply perspective projection
+            const perspective = 500;
+            const projectedX = torusX * perspective / (perspective - torusZ + 5);
+            const projectedY = torusY * perspective / (perspective - torusZ + 5);
+            
+            // Scale and center
+            const screenX = width / 2 + projectedX;
+            const screenY = height / 2 + projectedY;
+            
+            // Calculate size and opacity based on z-position
+            const sizeFactor = perspective / (perspective - torusZ + 10);
+            const size = point.size * sizeFactor;
+            
+            // Z-based color modulation
+            const zFactor = (torusZ + 10) / 20; // Normalize to 0-1 range
+            const brightness = 0.5 + zFactor * 0.5;
+            
+            return {
+                x: screenX,
+                y: screenY,
+                size: size,
+                opacity: Math.min(1, Math.max(0.1, (torusZ + 10) / 15)),
+                brightness: brightness,
+                z: torusZ
+            };
+        }
+        
+        // Draw a point
+        function drawPoint(point, projected) {
+            const { x, y, size, opacity, brightness } = projected;
+            
+            // Skip points that would be outside the canvas
+            if (x < -size || x > canvas.width + size || 
+                y < -size || y > canvas.height + size) {
+                return;
+            }
+            
+            // Apply color with depth-based brightness
+            const r = Math.floor(point.color.r * brightness);
+            const g = Math.floor(point.color.g * brightness);
+            const b = Math.floor(point.color.b * brightness);
+            
+            // Draw with glow effect
+            ctx.beginPath();
+            
+            // Inner brighter point
+            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Outer glow
+            const glow = ctx.createRadialGradient(x, y, size, x, y, size * 4);
+            glow.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${opacity * 0.8})`);
+            glow.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+            
+            ctx.beginPath();
+            ctx.fillStyle = glow;
+            ctx.arc(x, y, size * 4, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        // Animation loop
+        function animate() {
+            // Clear canvas with a subtle fade
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Update time
+            time += 0.01;
+            
+            // Slowly rotate the system
+            rotationX += 0.1;
+            rotationY += 0.15;
+            rotationZ += 0.05;
+            
+            // Project and draw all points
+            const projectedPoints = [];
+            
+            for (const point of points) {
+                const projected = project(point, canvas.width, canvas.height);
+                projectedPoints.push({ point, projected });
+            }
+            
+            // Sort by z for proper depth
+            projectedPoints.sort((a, b) => a.projected.z - b.projected.z);
+            
+            // Draw from back to front
+            for (const { point, projected } of projectedPoints) {
+                drawPoint(point, projected);
+            }
+            
+            // Continue animation loop
+            requestAnimationFrame(animate);
+        }
+        
+        // Start the animation
+        initPoints();
+        animate();
+    </script>
+</body>
+</html>
